@@ -148,10 +148,17 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
 
     if (isPrivate) {
       String token = (String) args[0];
+      Integer interval = null;
+      if (args.length > 1) {
+        interval = (Integer) args[1];
+      }
 
       KrakenSubscriptionMessage subscriptionMessage =
           new KrakenSubscriptionMessage(
-              reqID, subscribe, null, new KrakenSubscriptionConfig(subscriptionName, null, token));
+              reqID,
+              subscribe,
+              null,
+              new KrakenSubscriptionConfig(subscriptionName, null, token, interval));
 
       return objectMapper.writeValueAsString(subscriptionMessage);
     } else {
@@ -168,7 +175,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               reqID,
               subscribe,
               Collections.singletonList(pair),
-              new KrakenSubscriptionConfig(subscriptionName, depth, null));
+              new KrakenSubscriptionConfig(subscriptionName, depth, null, null));
       return objectMapper.writeValueAsString(subscriptionMessage);
     }
   }
@@ -186,7 +193,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               reqID,
               KrakenEventType.unsubscribe,
               null,
-              new KrakenSubscriptionConfig(subscriptionName, null, null));
+              new KrakenSubscriptionConfig(subscriptionName, null, null, null));
       return objectMapper.writeValueAsString(subscriptionMessage);
     } else {
       String pair = channelData[1];

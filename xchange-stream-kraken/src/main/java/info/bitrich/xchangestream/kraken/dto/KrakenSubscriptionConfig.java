@@ -31,17 +31,19 @@ public class KrakenSubscriptionConfig {
   private Integer interval;
 
   public KrakenSubscriptionConfig(KrakenSubscriptionName name) {
-    this(name, null, null);
+    this(name, null, null, null);
   }
 
   @JsonCreator
   public KrakenSubscriptionConfig(
       @JsonProperty("name") KrakenSubscriptionName name,
       @JsonProperty("depth") Integer depth,
-      @JsonProperty("token") String token) {
+      @JsonProperty("token") String token,
+      @JsonProperty("interval") Integer interval) {
     this.name = name;
     this.depth = depth;
     this.token = token;
+    this.interval = interval;
   }
 
   public KrakenSubscriptionName getName() {

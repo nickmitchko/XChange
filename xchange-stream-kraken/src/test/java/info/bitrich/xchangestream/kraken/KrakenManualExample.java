@@ -88,18 +88,17 @@ public class KrakenManualExample {
     btcUsdOrderBookDis.dispose();
     tickerDis.dispose();
     tradeDis.dispose();
-      Disposable ohlcDis = ((KrakenStreamingMarketDataService)
-              krakenExchange
-                      .getStreamingMarketDataService()).getOHLC(CurrencyPair.BTC_USD, 1)
-              .subscribe(
-                      s -> {
-                          LOG.info("Received {}", s);
-                      },
-                      e -> {
-                          LOG.error("Fail to get OHLC {}", e.getMessage(), e);
-                      }
-              );
-      TimeUnit.SECONDS.sleep(120);
+    Disposable ohlcDis =
+        ((KrakenStreamingMarketDataService) krakenExchange.getStreamingMarketDataService())
+            .getOHLC(CurrencyPair.BTC_USD, 1)
+            .subscribe(
+                s -> {
+                  LOG.info("Received {}", s);
+                },
+                e -> {
+                  LOG.error("Fail to get OHLC {}", e.getMessage(), e);
+                });
+    TimeUnit.SECONDS.sleep(120);
     ohlcDis.dispose();
     krakenExchange.disconnect().subscribe(() -> LOG.info("Disconnected"));
   }

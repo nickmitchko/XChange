@@ -3,17 +3,18 @@ package org.knowm.xchange.kraken.service;
 import java.io.IOException;
 import java.util.Collection;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.MarketOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.kraken.KrakenAdapters;
+import org.knowm.xchange.kraken.dto.account.KrakenTradeVolume;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrderResponse;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.trade.params.*;
 import org.knowm.xchange.service.trade.params.orders.OpenOrdersParams;
 import org.knowm.xchange.utils.DateUtils;
+import org.knowm.xchange.utils.OrderValuesHelper;
 
 public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeService {
 
@@ -47,6 +48,30 @@ public class KrakenTradeService extends KrakenTradeServiceRaw implements TradeSe
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     return KrakenAdapters.adaptOrderId(super.placeKrakenLimitOrder(limitOrder));
+  }
+
+  /**
+   * Place a stop order
+   *
+   * <p>If your orders amount or spot price does to meet the restrictions dictated by {@link
+   * CurrencyPairMetaData} then the exchange will reject your order. Use {@link
+   * OrderValuesHelper} to validate and / or adjust those values while you'r
+   * building an order.
+   *
+   * @param stopOrder
+   * @return the order ID
+   * @throws ExchangeException                     - Indication that the exchange reported some kind of error with the
+   *                                               request or response
+   * @throws NotAvailableFromExchangeException     - Indication that the exchange does not support the
+   *                                               requested function or data
+   * @throws NotYetImplementedForExchangeException - Indication that the exchange supports the
+   *                                               requested function or data, but it has not yet been implemented
+   * @throws IOException                           - Indication that a networking error occurred while fetching JSON data
+   * @see OrderValuesHelper
+   */
+  @Override
+  public String placeStopOrder(StopOrder stopOrder) throws IOException {
+    return KrakenAdapters.adaptOrderId(super.placeKrakenStopLossOrder(stopOrder));
   }
 
   @Override
