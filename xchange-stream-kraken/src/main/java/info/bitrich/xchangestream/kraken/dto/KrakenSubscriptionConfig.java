@@ -44,6 +44,7 @@ public class KrakenSubscriptionConfig {
     this.depth = depth;
     this.token = token;
     this.interval = interval;
+    System.out.println("Subscribed name: " + name + "\ntoken: " + token + "\ninterval: " + interval);
   }
 
   public KrakenSubscriptionName getName() {

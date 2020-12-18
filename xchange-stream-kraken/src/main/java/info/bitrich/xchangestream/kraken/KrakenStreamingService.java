@@ -168,6 +168,10 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
       if (args.length > 0 && args[0] != null) {
         depth = (Integer) args[0];
       }
+      Integer interval = null;
+      if (args.length > 1) {
+        interval = (Integer) args[1];
+      }
       subscriptionRequestMap.put(reqID, channelName);
 
       KrakenSubscriptionMessage subscriptionMessage =
@@ -175,7 +179,7 @@ public class KrakenStreamingService extends JsonNettyStreamingService {
               reqID,
               subscribe,
               Collections.singletonList(pair),
-              new KrakenSubscriptionConfig(subscriptionName, depth, null, null));
+              new KrakenSubscriptionConfig(subscriptionName, depth, null, interval));
       return objectMapper.writeValueAsString(subscriptionMessage);
     }
   }
